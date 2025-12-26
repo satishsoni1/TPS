@@ -28,6 +28,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const session = localStorage.getItem("user_session")
+    console.log("User session:", session)
     if (!session) {
       router.push("/auth/login")
       return
@@ -50,6 +51,49 @@ export default function Dashboard() {
   }
 
   if (!user) return null
+  const TAB_CONFIG = [
+    {
+      value: "lr",
+      label: "LR",
+      roles: ["admin", "operations", "accounts"],
+    },
+    {
+      value: "challan",
+      label: "Challan",
+      roles: ["admin", "operations"],
+    },
+    {
+      value: "vehicles",
+      label: "Vehicles",
+      roles: ["admin", "operations"],
+    },
+    {
+      value: "drivers",
+      label: "Drivers",
+      roles: ["admin", "operations"],
+    },
+    {
+      value: "routes",
+      label: "Routes",
+      roles: ["admin", "operations"],
+    },
+    {
+      value: "invoice",
+      label: "Invoice",
+      roles: ["admin", "accounts"],
+    },
+    {
+      value: "customers",
+      label: "Customers",
+      roles: ["admin", "accounts"],
+    },
+    {
+      value: "payments",
+      label: "Payments",
+      roles: ["admin", "accounts"],
+    },
+  ]
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,8 +119,81 @@ export default function Dashboard() {
               <div className="text-2xl font-bold mt-2">₹2.4L</div>
             </Card>
           </div>
+          <Card className="rounded-xl">
+            <Tabs defaultValue="lr" className="w-full">
 
-          <Card>
+              <TabsList
+                className="
+    flex w-full gap-3
+    border-b bg-background
+    px-4 py-3
+    overflow-x-auto
+    scrollbar-hide
+  "
+              >
+                {TAB_CONFIG.filter(tab => tab.roles.includes(user.role)).map(tab => (
+                  <TabsTrigger
+                    value={tab.value}
+                    className="
+    h-11 min-w-[110px]
+    rounded-full
+    px-6
+    text-sm font-medium
+    transition-all duration-200
+
+    border border-border
+    bg-muted text-muted-foreground
+
+    hover:bg-accent hover:text-accent-foreground
+
+    data-[state=active]:bg-primary
+    data-[state=active]:text-primary-foreground
+    data-[state=active]:shadow-sm
+  "
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              <div className="p-2">
+                <TabsContent value="lr">
+                  <LRManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="challan">
+                  <ChallanManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="vehicles">
+                  <VehicleManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="drivers">
+                  <DriverManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="routes">
+                  <RouteManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="invoice">
+                  <InvoiceManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="customers">
+                  <CustomerManagementEnhanced userRole={user.role} />
+                </TabsContent>
+
+                <TabsContent value="payments">
+                  <PaymentManagementEnhanced userRole={user.role} />
+                </TabsContent>
+              </div>
+
+            </Tabs>
+          </Card>
+
+          {/* <Card>
             <Tabs defaultValue="lr" className="w-full">
               <TabsList className="border-b rounded-none px-6 pt-4 w-full justify-start overflow-x-auto">
                 <TabsTrigger value="lr">LR Management</TabsTrigger>
@@ -139,7 +256,7 @@ export default function Dashboard() {
                 )}
               </div>
             </Tabs>
-          </Card>
+          </Card> */}
         </div>
       </main>
     </div>

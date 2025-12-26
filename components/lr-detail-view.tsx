@@ -33,7 +33,7 @@ export default function LRDetailView({ lr, open, onOpenChange, onStatusChange, u
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl p-6">
         <DialogHeader>
           <DialogTitle>{lr.lrNumber}</DialogTitle>
         </DialogHeader>
